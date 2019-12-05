@@ -73,7 +73,7 @@
       response(suggestions);
     }
 
-    var term = request.term;
+    var term = autocomplete.extractLastTerm(request.term);
 
     function sourceCallbackHandler(data) {
       autocomplete.cache[elementId][term] = data;
@@ -84,9 +84,6 @@
     if (autocomplete.cache[elementId].hasOwnProperty(term)) {
       showSuggestions(autocomplete.cache[elementId][term]);
     } else {
-            if (/^[a-zA-Z0-9- ]*$/.test(term) == false) {
-                term = null;
-            }
       var options = $.extend({ success: sourceCallbackHandler, data: { q: term } }, autocomplete.ajax);
       $.ajax(this.element.attr('data-autocomplete-path'), options);
     }
